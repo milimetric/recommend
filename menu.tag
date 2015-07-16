@@ -1,13 +1,13 @@
 <menu class="ui pointing menu">
     <div class="right menu">
-        <div class="item">
-            <div class="ui transparent icon input">
-            <input type="text"
-                   placeholder="name (optional) ..."
-                   name="username" />
-            <i class="search link icon"></i>
+        <div class="ui pointing personalize dropdown link item">
+            Personalize <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item">Login to Wikipedia</div>
+              <div class="item">With an Article</div>
             </div>
         </div>
+
         <a each={ opts.items }
            class={ item: true, active: parent.selected === view }
            onclick={ parent.navigate }
@@ -26,5 +26,9 @@
 
             this.selected = e.item.view
         }
+
+        this.on('mount', function (){
+            $('.ui.dropdown').dropdown();
+        });
     </script>
 </menu>

@@ -1,9 +1,8 @@
 'use strict';
 
 var items = [
-    { view: 'Recommend' },
-    { view: 'Future' },
-    { view: 'Other' },
+    { view: 'Translate' },
+    { view: 'About' },
 ];
 
 riot.mount('menu', { items: items });
@@ -18,4 +17,4 @@ riot.route(function (view, username) {
     riot.mount(page, view, { username: username });
 });
 riot.route.start();
-riot.route('Home');
+riot.route('Translate');
