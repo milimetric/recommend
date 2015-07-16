@@ -4,8 +4,12 @@
             Personalize <i class="dropdown icon"></i>
             <div class="menu">
               <div class="item">Login to Wikipedia</div>
-              <div class="item">With an Article</div>
+              <div class="item" onclick={ enableArticle }>With an Article</div>
             </div>
+        </div>
+
+        <div if={ seedArticleVisible } class="item">
+            <input placeholder=" seed article" name="seedArticle"/>
         </div>
 
         <a each={ opts.items }
@@ -16,10 +20,15 @@
 
     <script>
         this.selected = null
+        this.seedArticleVisible = false
+
+        enableArticle(e) {
+            this.seedArticleVisible = true
+        }
 
         navigate(e) {
-            var url = this.username.value ?
-                e.item.view + '/' + this.username.value :
+            var url = this.seedArticle.value ?
+                e.item.view + '/' + this.seedArticle.value :
                 e.item.view
 
             riot.route(url)

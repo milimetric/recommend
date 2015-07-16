@@ -9,12 +9,12 @@ riot.mount('menu', { items: items });
 
 var page = document.getElementById('page');
 
-riot.route(function (view, username) {
+riot.route(function (view, seedArticle) {
     var custom = document.createElement(view);
     page.innerHTML = '';
     page.appendChild(custom);
 
-    riot.mount(page, view, { username: username });
+    riot.mount(page, view, { seedArticle: seedArticle });
 });
 riot.route.start();
 riot.route('Translate');

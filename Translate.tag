@@ -32,7 +32,9 @@
         <div class="ui row cards">
 
             <div each={ articles } class="card">
-                <img src={ thumbnail } class="ui small left floated image" />
+                <a onclick={ preview }>
+                    <img src={ thumbnail } class="ui small left floated image" />
+                </a>
                 <div class="content">
                     <a onclick={ preview } class="header">{ title }</a>
                     <div class="meta">
