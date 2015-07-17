@@ -1,2 +1,5 @@
-.ui.three.quarters { height: 75vh; }
+.ui.three.quarters { height: 70vh; }
 .ui.scrollable { overflow-y: scroll; padding-top: 10px; }
+
+/*.transparent { background-color: transparent!important; }*/
+/*.preview.title { position: absolute; left: 20px; margin-bottom: 10px; }*/

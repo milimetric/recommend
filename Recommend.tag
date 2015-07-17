@@ -1,4 +1,4 @@
-<Translate class="ui">
+<Recommend class="ui">
 
     <div class="ui centered eight column grid">
         <div class="row">
@@ -32,29 +32,55 @@
         <div class="ui row cards">
 
             <div each={ articles } class="card">
-                <a onclick={ preview }>
-                    <img src={ thumbnail } class="ui small left floated image" />
-                </a>
+
                 <div class="content">
+                    <a onclick={ preview }>
+                        <img src={ thumbnail } class="ui left floated image" />
+                    </a>
                     <a onclick={ preview } class="header">{ title }</a>
                     <div class="meta">
                         <span>viewed { pageviews } times recently</span>
                     </div>
-                    <!--p>
-                        <button class="ui button">
-                            Skip
-                            <i class="remove icon"></i>
-                        </button>
-                    </p-->
                 </div>
+                <div class="ui two bottom attached buttons">
+                    <button class="ui button">
+                        <i class="remove icon"></i>
+                        Skip
+                    </button>
+                    <button class="ui primary button">
+                        <i class="write icon"></i>
+                        Translate
+                    </button>
+                </div>
+                <!--div class="ui extra">
+                    <button class="ui icon left floated button"
+                            data-content="Skip">
+                        <i class="remove icon"></i>
+                    </button>
+                    <button class="ui icon right floated primary button"
+                            data-content="Translate">
+                        <i class="write icon"></i>
+                    </button>
+                </div-->
             </div>
 
         </div>
     </div>
 
     <div class="ui modal preview">
-        <div class="ui three quarters scrollable">
-            <div class="ui text container segment preview page"></div>
+        <div class="ui centered menu">
+            <div class="item" onclick={ left }>
+                <i class="huge grey chevron left icon"></i>
+            </div>
+            <div class="item">
+                <div class="ui three quarters scrollable container">
+                    <h2 class="ui header preview title"></h2>
+                    <div class="preview page"></div>
+                </div>
+            </div>
+            <div class="item" onclick={ right }>
+                <i class="huge grey chevron right icon"></i>
+            </div>
         </div>
         <div class="ui menu">
             <div class="item">
@@ -65,7 +91,10 @@
             </div>
             <div class="right menu">
                 <div class="item">
-                    <div class="ui primary button">Translate</div>
+                    <div class="ui primary button">
+                        <i class="write icon"></i>
+                        Translate
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,6 +124,7 @@
                 article.id = id;
                 article.title = page.title;
                 article.thumbnail = page.thumbnail.source;
+                article.hovering = false;
                 self.update();
 
             });
@@ -103,16 +133,52 @@
         var mobileRoot = 'http://rest.wikimedia.org/en.wikipedia.org/v1/page/html/';
 
         preview (e) {
-            $.get(mobileRoot + e.item.title).done(function (data) {;
-                $('.preview.page').html(data);
-                $('.ui.modal.preview').modal('show');
+            self.index = -1;
+            for (var i=0; i<self.articles.length; i++) {
+                if (self.articles[i].title === e.item.title) {
+                    self.showIndex = i;
+                    self.show();
+                    break;
+                }
+            }
+        }
+
+        left (e) {
+            if (self.showIndex > 0) {
+                self.showIndex --;
+                self.show();
+            }
+        }
+
+        right (e) {
+            if (self.showIndex < self.articles.length - 1) {
+                self.showIndex ++;
+                self.show();
+            }
+        }
+
+        self.cache = {};
+        self.show = function () {
+            var showing = self.articles[self.showIndex];
+
+            $.get(mobileRoot + showing.title).done(function (data) {;
+                self.showPreview(showing.title, data);
+            }).fail(function (data) {
+                self.showPreview(showing.title, 'No Internet');
             });
+        }
+
+        self.showPreview = function (title, body) {
+            $('.preview.title').text(title);
+            $('.preview.page').html(body);
+            $('.ui.modal.preview').modal('show');
         }
 
         this.articles.forEach(detail);
 
         this.on('mount', function (){
             $('.ui.dropdown').dropdown();
+            $('.ui.extra .button').popup();
         });
     </script>
-</Translate>
+</Recommend>

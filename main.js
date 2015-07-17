@@ -1,7 +1,7 @@
 'use strict';
 
 var items = [
-    { view: 'Translate' },
+    { view: 'Recommend' },
     { view: 'About' },
 ];
 
@@ -17,4 +17,4 @@ riot.route(function (view, seedArticle) {
     riot.mount(page, view, { seedArticle: seedArticle });
 });
 riot.route.start();
-riot.route('Translate');
+riot.route('Recommend');
