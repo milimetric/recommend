@@ -1,24 +1,30 @@
 <preview class="ui modal preview">
 
-    <div class="ui centered menu">
-        <div class="item" onclick={ left }>
-            <i class="huge grey chevron left icon"></i>
-        </div>
-        <div class="item">
-            <div class="ui three quarters scrollable container">
-                <h2 class="ui header">{ title }</h2>
-                <div class="preview body"></div>
-            </div>
-        </div>
-        <div class="item" onclick={ right }>
-            <i class="huge grey chevron right icon"></i>
-        </div>
+    <div class="ui three quarters scrollable container">
+        <h2 class="ui header">{ title }</h2>
+        <div class="preview body"></div>
     </div>
     <div class="ui menu">
         <div class="item">
             <button class="ui button">
                 Skip
                 <i class="remove icon"></i>
+            </button>
+        </div>
+        <div class="item">
+            <button class={
+                disabled: showIndex === 0,
+                ui: true, icon: true, button: true
+            } onclick={ left }>
+                <i class="large grey chevron left icon"></i>
+            </button>
+        </div>
+        <div class="item">
+            <button class={
+                disabled: showIndex > (articles.length - 2),
+                ui: true, icon: true, button: true
+            } onclick={ right }>
+                <i class="large grey chevron right icon"></i>
             </button>
         </div>
         <div class="right menu">
@@ -49,6 +55,8 @@
 
         self.show = function () {
             var showing = self.articles[self.showIndex];
+            self.title = showing.title;
+            $('.preview.body').append('<div class="mask">Loading...</div>');
 
             $.get(mobileRoot + showing.title).done(function (data) {;
                 self.showPreview(showing.title, data);
@@ -58,9 +66,16 @@
         }
 
         self.showPreview = function (title, body) {
-            self.title = title;
             $('.preview.body').html(body);
-            $('.ui.modal.preview').modal('show');
+
+            $('.ui.modal.preview').modal({
+                onHide: function () {
+                    // strip out the nasty CSS
+                    $('.preview.body').html('');
+                }
+            }).modal('show');
+
+            self.update();
         }
 
         left (e) {

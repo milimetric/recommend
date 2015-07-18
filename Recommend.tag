@@ -19,9 +19,9 @@
             <div class="three wide column">
                 <h3>To</h3>
                 <select class="ui personalize dropdown">
-                    <option>French</option>
                     <option>Spanish</option>
                     <option>German</option>
+                    <option>French</option>
                     <option disabled>(more coming soon)</option>
                 </select>
             </div>
@@ -31,7 +31,9 @@
 
         <div class="ui row cards">
 
-            <div each={ articles } class="card">
+            <div each={ articles } class="card"
+                onmouseover={ hoverIn }
+                onmouseout={ hoverOut }>
 
                 <div class="content">
                     <a onclick={ preview }>
@@ -42,18 +44,20 @@
                         <span>viewed { pageviews } times recently</span>
                     </div>
                 </div>
-                <div class="ui two bottom attached buttons">
-                    <button class="ui button">
-                        <i class="remove icon"></i>
-                        Skip
-                    </button>
-                    <button class="ui primary button">
-                        <i class="write icon"></i>
-                        Translate
-                    </button>
+                <div class="extra">
+                    <div class="ui two bottom attached buttons">
+                        <div class="mask" if={ !hovering }></div>
+                        <button class="ui button">
+                            <i class="remove icon"></i>
+                            Skip
+                        </button>
+                        <button class="ui primary button" onclick={ translate }>
+                            <i class="write icon"></i>
+                            Translate
+                        </button>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -89,6 +93,9 @@
             });
         }
 
+        translate (e) {
+        }
+
         preview (e) {
             riot.mount('preview', {
                 articles: self.articles,
@@ -102,5 +109,24 @@
             $('.ui.dropdown').dropdown();
             $('.ui.extra .button').popup();
         });
+
+        hoverIn (e) {
+            e.item.hovering = true;
+        }
+
+        hoverOut (e) {
+            e.item.hovering = false;
+        }
+
+/*
+remove disambig header
+skip icon position
+
+everything's a link
+gray background cards
+left align cards
+buttons ew
+*/
+
     </script>
 </Recommend>

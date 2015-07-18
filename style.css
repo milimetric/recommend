@@ -1,5 +1,13 @@
 .ui.three.quarters { height: 70vh; }
-.ui.scrollable { overflow-y: scroll; padding-top: 10px; }
+.ui.scrollable { overflow-y: scroll; padding: 20px; position: relative; }
 
 /*.transparent { background-color: transparent!important; }*/
 /*.preview.title { position: absolute; left: 20px; margin-bottom: 10px; }*/
+
+.mask {
+    z-index: 1;
+    position: absolute;
+    background-color: white;
+    top: 0; right: 0; bottom: 0; left: 0;
+    padding: 20px;
+}
