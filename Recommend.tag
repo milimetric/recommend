@@ -5,7 +5,7 @@
             <h2 class="header">Articles Recommended for Translation</h2>
         </div>
 
-        <div class="row">
+        <div class="stackable row">
             <div class="three wide column">
                 <h3>From</h3>
                 <select class="ui personalize dropdown">
@@ -52,53 +52,12 @@
                         Translate
                     </button>
                 </div>
-                <!--div class="ui extra">
-                    <button class="ui icon left floated button"
-                            data-content="Skip">
-                        <i class="remove icon"></i>
-                    </button>
-                    <button class="ui icon right floated primary button"
-                            data-content="Translate">
-                        <i class="write icon"></i>
-                    </button>
-                </div-->
             </div>
 
         </div>
     </div>
 
-    <div class="ui modal preview">
-        <div class="ui centered menu">
-            <div class="item" onclick={ left }>
-                <i class="huge grey chevron left icon"></i>
-            </div>
-            <div class="item">
-                <div class="ui three quarters scrollable container">
-                    <h2 class="ui header preview title"></h2>
-                    <div class="preview page"></div>
-                </div>
-            </div>
-            <div class="item" onclick={ right }>
-                <i class="huge grey chevron right icon"></i>
-            </div>
-        </div>
-        <div class="ui menu">
-            <div class="item">
-                <button class="ui button">
-                    Skip
-                    <i class="remove icon"></i>
-                </button>
-            </div>
-            <div class="right menu">
-                <div class="item">
-                    <div class="ui primary button">
-                        <i class="write icon"></i>
-                        Translate
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <preview></preview>
 
     <script>
         this.articles = [
@@ -130,48 +89,11 @@
             });
         }
 
-        var mobileRoot = 'http://rest.wikimedia.org/en.wikipedia.org/v1/page/html/';
-
         preview (e) {
-            self.index = -1;
-            for (var i=0; i<self.articles.length; i++) {
-                if (self.articles[i].title === e.item.title) {
-                    self.showIndex = i;
-                    self.show();
-                    break;
-                }
-            }
-        }
-
-        left (e) {
-            if (self.showIndex > 0) {
-                self.showIndex --;
-                self.show();
-            }
-        }
-
-        right (e) {
-            if (self.showIndex < self.articles.length - 1) {
-                self.showIndex ++;
-                self.show();
-            }
-        }
-
-        self.cache = {};
-        self.show = function () {
-            var showing = self.articles[self.showIndex];
-
-            $.get(mobileRoot + showing.title).done(function (data) {;
-                self.showPreview(showing.title, data);
-            }).fail(function (data) {
-                self.showPreview(showing.title, 'No Internet');
+            riot.mount('preview', {
+                articles: self.articles,
+                title: e.item.title,
             });
-        }
-
-        self.showPreview = function (title, body) {
-            $('.preview.title').text(title);
-            $('.preview.page').html(body);
-            $('.ui.modal.preview').modal('show');
         }
 
         this.articles.forEach(detail);
