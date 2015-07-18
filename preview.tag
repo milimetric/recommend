@@ -7,8 +7,8 @@
     <div class="ui menu">
         <div class="item">
             <button class="ui button">
-                Skip
                 <i class="remove icon"></i>
+                Skip
             </button>
         </div>
         <div class="item">
@@ -16,7 +16,7 @@
                 disabled: showIndex === 0,
                 ui: true, icon: true, button: true
             } onclick={ left }>
-                <i class="large grey chevron left icon"></i>
+                <i class="grey chevron left icon"></i>
             </button>
         </div>
         <div class="item">
@@ -24,7 +24,7 @@
                 disabled: showIndex > (articles.length - 2),
                 ui: true, icon: true, button: true
             } onclick={ right }>
-                <i class="large grey chevron right icon"></i>
+                <i class="grey chevron right icon"></i>
             </button>
         </div>
         <div class="right menu">

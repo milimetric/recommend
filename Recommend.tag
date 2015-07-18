@@ -1,6 +1,6 @@
 <Recommend class="ui">
 
-    <div class="ui centered eight column grid">
+    <div class="ui centered nine column grid">
         <div class="row">
             <h2 class="header">Articles Recommended for Translation</h2>
         </div>
@@ -13,15 +13,17 @@
                     <option disabled>(more coming soon)</option>
                 </select>
             </div>
-            <div class="two wide bottom aligned column">
+            <div class="one wide bottom aligned column">
+            </div>
+            <div class="one wide bottom aligned column">
                 <i class="ui big right arrow icon"></i>
+            </div>
+            <div class="one wide bottom aligned column">
             </div>
             <div class="three wide column">
                 <h3>To</h3>
                 <select class="ui personalize dropdown">
                     <option>Spanish</option>
-                    <option>German</option>
-                    <option>French</option>
                     <option disabled>(more coming soon)</option>
                 </select>
             </div>
@@ -29,34 +31,22 @@
 
         <div class="row"></div>
 
-        <div class="ui row cards">
+        <div class="ui centered grid container tight cards">
 
             <div each={ articles } class="card"
                 onmouseover={ hoverIn }
                 onmouseout={ hoverOut }>
 
-                <div class="content">
-                    <a onclick={ preview }>
-                        <img src={ thumbnail } class="ui left floated image" />
-                    </a>
-                    <a onclick={ preview } class="header">{ title }</a>
-                    <div class="meta">
-                        <span>viewed { pageviews } times recently</span>
-                    </div>
-                </div>
-                <div class="extra">
-                    <div class="ui two bottom attached buttons">
-                        <div class="mask" if={ !hovering }></div>
-                        <button class="ui button">
-                            <i class="remove icon"></i>
-                            Skip
-                        </button>
-                        <button class="ui primary button" onclick={ translate }>
-                            <i class="write icon"></i>
-                            Translate
-                        </button>
-                    </div>
-                </div>
+                <a onclick={ preview }>
+                    <img src={ thumbnail } class="ui left floated image" />
+                    <h3>{ title }</h3>
+                    <span class="meta">viewed { pageviews } times recently</span>
+                </a>
+                <span class={ hidden: !hovering }>
+                    <button class="ui top right corner icon button" onclick={ remove }>
+                        <i class="remove icon"></i>
+                    </button>
+                </span>
             </div>
         </div>
     </div>
@@ -71,7 +61,7 @@
             { pageviews: 900, title: 'HMS_Bellerophon_(1786)' },
         ];
 
-        var thumbQuery = 'https://en.wikipedia.org/w/api.php?action=query&pithumbsize=100&format=json&prop=pageimages&titles=';
+        var thumbQuery = 'https://en.wikipedia.org/w/api.php?action=query&pithumbsize=50&format=json&prop=pageimages&titles=';
 
         var self = this;
         function detail (article) {
@@ -93,7 +83,7 @@
             });
         }
 
-        translate (e) {
+        remove (e) {
         }
 
         preview (e) {
@@ -117,16 +107,6 @@
         hoverOut (e) {
             e.item.hovering = false;
         }
-
-/*
-remove disambig header
-skip icon position
-
-everything's a link
-gray background cards
-left align cards
-buttons ew
-*/
 
     </script>
 </Recommend>
