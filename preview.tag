@@ -29,10 +29,11 @@
         </div>
         <div class="right menu">
             <div class="item">
-                <div class="ui primary button">
+                <a class="ui primary translate button" target="_blank"
+                   href={ translateLink }>
                     <i class="write icon"></i>
                     Translate
-                </div>
+                </a>
             </div>
         </div>
     </div>
@@ -42,6 +43,11 @@
 
         self.articles = opts.articles || [];
         self.title = opts.title || '';
+        // TODO: should this link to the destination wiki?
+        self.translateRoot = '//en.wikipedia.org/wiki/Special:ContentTranslation?' +
+            'from=' + opts.from +
+            '&to=' + opts.to +
+            '&campaign=article-recommendation';
 
         self.index = -1;
         for (var i=0; i<self.articles.length; i++) {
@@ -56,23 +62,25 @@
         self.show = function () {
             var showing = self.articles[self.showIndex];
             self.title = showing.title;
+            self.translateLink = self.translateRoot + '&page=' + showing.linkTitle;
+
             $('.preview.body').append('<div class="mask">Loading...</div>');
 
             $.get(mobileRoot + showing.title).done(function (data) {;
-                self.showPreview(showing.title, data);
+                self.showPreview(showing, data);
             }).fail(function (data) {
-                self.showPreview(showing.title, 'No Internet');
+                self.showPreview(showing, 'No Internet');
             });
         }
 
-        self.showPreview = function (title, body) {
+        self.showPreview = function (showing, body) {
             $('.preview.body').html(body);
 
             $('.ui.modal.preview').modal({
                 onHide: function () {
                     // strip out the nasty CSS
                     $('.preview.body').html('');
-                }
+                },
             }).modal('show');
 
             self.update();
@@ -95,6 +103,16 @@
         if (isFinite(self.showIndex)) {
             self.show();
         }
+
+        /*
+        this.on('mount', function () {
+            var showing = self.articles[self.showIndex];
+            if (!showing) { return; }
+
+            $('.preview a.translate.button')[0].href =
+                self.translateRoot + '&page=' + showing.linkTitle;
+        });
+        */
     </script>
 
 </preview>
